@@ -20,6 +20,8 @@ public class User {
   private String lastName;
   @Column(name = "dob")
   private LocalDate dob;
+  @Column(name = "salt")
+  private String salt;
   @Column(name = "password")
   private String password;
   @Column(name = "balance")
@@ -31,7 +33,7 @@ public class User {
   //Constructors
   User(){}
 
-  User(String firstName, String lastName, LocalDate dob, String password){
+  User(String firstName, String lastName, LocalDate dob, String salt, String password){
 
     if (!firstName.isEmpty() && !lastName.isEmpty()){
       this.firstName = firstName;
@@ -41,6 +43,8 @@ public class User {
     if (dob.isBefore(LocalDate.now())){
       this.dob = dob;
     }
+
+    this.salt = salt;
 
     if (!password.isEmpty()){
       this.password = password;
@@ -74,6 +78,14 @@ public class User {
 
   public void setDob(LocalDate dob) {
     this.dob = dob;
+  }
+
+  public String getSalt(){
+    return salt;
+  }
+
+  public void setSalt(String salt){
+    this.salt = salt;
   }
 
   public String getPassword() {

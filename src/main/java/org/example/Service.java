@@ -11,9 +11,16 @@ import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.query.Query;
 
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.PBEKeySpec;
 import javax.swing.*;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.security.spec.InvalidKeySpecException;
+import java.security.spec.KeySpec;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 public class Service {
@@ -50,7 +57,15 @@ public class Service {
         throw new Exception("User already exists");
       }
 
-      User user = new User(firstName, lastName, dob, password);
+      // salt and hash password
+      byte[] saltByte = generateSalt();
+      String hashedPassword = hashPassword(password, saltByte);
+
+      // convert saltByte to a String
+      Base64.Encoder enc = Base64.getEncoder();
+      String salt = enc.encodeToString(saltByte);
+
+      User user = new User(firstName, lastName, dob, salt, hashedPassword);
       session.persist(user);
       transaction.commit();
     }
@@ -86,7 +101,12 @@ public class Service {
         throw new Exception("User doesn't exist");
       }
 
-      if (password.equals(user.getPassword())) {
+      String saltString = user.getSalt();
+      byte[] saltBytes = Base64.getDecoder().decode(saltString);
+
+      String hashedPassword = hashPassword(password, saltBytes);
+
+      if (hashedPassword.equals(user.getPassword())) {
         return user;
       } else {
         throw new Exception("Incorrect password");
@@ -191,11 +211,43 @@ public class Service {
     try (Session session = sessionFactory.openSession()) {
       Transaction transaction = session.beginTransaction();
 
-      user.setPassword(password);
+      byte[] saltByte = generateSalt();
+
+      // convert saltByte to a String
+      Base64.Encoder enc = Base64.getEncoder();
+      String salt = enc.encodeToString(saltByte);
+
+      // hash password
+      String hashedPassword = null;
+      try {
+        hashedPassword = hashPassword(password, saltByte);
+      } catch (Exception e) {
+        e.getMessage();
+      }
+
+      user.setSalt(salt);
+      user.setPassword(hashedPassword);
       session.merge(user);
 
       transaction.commit();
     }
+  }
+
+  public static byte[] generateSalt(){
+    SecureRandom random = new SecureRandom();
+    byte[] salt = new byte[16];
+    random.nextBytes(salt);
+
+    return salt;
+  }
+  public static String hashPassword(String password, byte[] salt) throws Exception {
+    KeySpec spec = new PBEKeySpec("password".toCharArray(), salt, 10000, 128);
+    SecretKeyFactory f = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
+    byte[] hash = f.generateSecret(spec).getEncoded();
+
+    Base64.Encoder enc = Base64.getEncoder();
+
+    return enc.encodeToString(hash);
   }
 
 }
