@@ -544,6 +544,26 @@ public class UI {
       }
     });
 
+//    JLabel deleteAccountLabel = new JLabel("Delete Account");
+//    deleteAccountLabel.setBounds(35, 640, 200, 25);
+//    deleteAccountLabel.setFont(new Font("Serif", Font.BOLD, 25));
+//
+//    JButton deleteAccountButton = new JButton("Delete");
+//    deleteAccountButton.setBounds(35, 680, 200, 20);
+//    deleteAccountButton.addActionListener(new ActionListener() {
+//      @Override
+//      public void actionPerformed(ActionEvent e) {
+//        Service.removeUser(user);
+//
+//        user = null;
+//
+//        frame.getContentPane().removeAll();
+//        frame.setContentPane(buildLoginPage());
+//        frame.revalidate();
+//        frame.repaint();
+//      }
+//    });
+
     panel.add(personalInfoLabel);
     panel.add(settingsHeader);
     panel.add(backButton);
@@ -561,6 +581,8 @@ public class UI {
     panel.add(confirmButton);
     panel.add(signOutLabel);
     panel.add(signOutButton);
+//    panel.add(deleteAccountLabel);
+//    panel.add(deleteAccountButton);
 
     return panel;
   }

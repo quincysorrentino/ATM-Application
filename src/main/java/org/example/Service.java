@@ -72,15 +72,12 @@ public class Service {
   }
 
   public static void removeUser(User user){
-    Session session = sessionFactory.openSession();
+    try (Session session = sessionFactory.openSession()) {
+      Transaction transaction = session.beginTransaction();
 
-    Transaction transaction = session.beginTransaction();
-
-    session.remove(user);
-    transaction.commit();
-
-    session.close();
-    //sessionFactory.close();
+      session.remove(user);
+      transaction.commit();
+    }
   }
 
   public static User login(String firstName, String lastName, String password) throws Exception{
