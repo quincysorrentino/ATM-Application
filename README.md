@@ -52,3 +52,12 @@ All passwords are hashed using a method called PBKDF2, which stands for Password
 
 ## Gallery
 
+| ![Screenshot 2024-07-05 210439](https://github.com/quincysorrentino/ATM-Application/assets/140214071/0c1a4492-8f54-4667-b8af-f2fe84747345) | ![Screenshot 2024-07-05 210713](https://github.com/quincysorrentino/ATM-Application/assets/140214071/0199841c-809b-4ce2-b8b6-582d56ed9657) | ![Screenshot 2024-07-05 210908](https://github.com/quincysorrentino/ATM-Application/assets/140214071/3014ea8d-224b-47a3-86d0-812935f4adb9) |
+|:---:|:---:|:---:|
+| Register Page | Login Page | Home Page |
+
+| ![Screenshot 2024-07-05 210938](https://github.com/quincysorrentino/ATM-Application/assets/140214071/d4ef8d3d-51c4-4649-8a7b-c754a0f74585) | ![Screenshot 2024-07-05 211113](https://github.com/quincysorrentino/ATM-Application/assets/140214071/ab9487f5-93e9-40e6-9e34-ae0aa74573db) | ![Screenshot 2024-07-05 211319](https://github.com/quincysorrentino/ATM-Application/assets/140214071/6ce4fb93-0d63-4027-8398-dd6a8a282650) |
+|:---:|:---:|:---:|
+| Transfer Popup | Transfer Error | Settings Page |
+
+
